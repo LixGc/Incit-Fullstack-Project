@@ -130,7 +130,7 @@ class AuthController {
   }
   static async verify(req, res, next) {
     try {
-      const { id, uniqueString } = req.params;
+      let { id, uniqueString } = req.params;
       const user = await User.findByPk(id, { attributes: ["verificationLink", "verified", "email"] });
       if (user.verificationLink !== uniqueString) {
         throw { name: "email_verification_not_valid" };
@@ -139,6 +139,11 @@ class AuthController {
         await User.update({ verified: true }, { where: { id } });
       }
       const access_token = signToken({ id });
+      let userTotalLogin = user.totalLogin;
+      if (!user.totalLogin) {
+        userTotalLogin = 0;
+      }
+      await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
       res.status(200).redirect(`http://localhost:3001/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
     } catch (error) {
       next(error);
@@ -146,7 +151,11 @@ class AuthController {
   }
   static async resendVerification(req, res, next) {
     try {
-      const user = await User.findByPk(req.user.id);
+      const { email } = req.headers;
+      if (!email) {
+        throw { name: "invalid_data" };
+      }
+      const user = await User.findOne({ where: { email } });
       if (user.verified) {
         throw { name: "Email already verified" };
       }
