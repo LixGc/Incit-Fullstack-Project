@@ -67,6 +67,37 @@ class UserController {
   }
   static async resetPassword(req, res, next) {
     try {
+      const { oldPassword, newPassword, confirmPassword } = req.body;
+
+      if (!oldPassword || !newPassword || !confirmPassword) {
+        throw { name: "empty_input" };
+      }
+      const user = await User.findByPk(req.user.id, { attributes: ["password"] });
+
+      const isOldPasswordValid = comparePassword(oldPassword, user.password);
+      if (!isOldPasswordValid) {
+        throw { name: "invalid_password" };
+      }
+
+      if (newPassword !== confirmPassword) {
+        throw { name: "Password doesn't match" };
+      }
+
+      const validPasswordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$/;
+      if (!validPasswordFormat.test(newPassword) || !validPasswordFormat.test(newPassword)) {
+        throw { name: "notStrongPassword" };
+      }
+
+      if (comparePassword(newPassword, user.password)) {
+        throw { name: "same_password" };
+      }
+
+      const hashedPassword = hashPassword(newPassword);
+
+      await User.update({ password: hashedPassword }, { where: { id: req.user.id } });
+      await redis.del(`userProfile:${req.user.id}`);
+      await redis.del(`userDashboard`);
+      res.json({ message: "Password successfully updated!" });
     } catch (error) {
       console.error(error);
       next(error);
@@ -74,6 +105,18 @@ class UserController {
   }
   static async resetName(req, res, next) {
     try {
+      const { newName } = req.body;
+      if (!newName) {
+        throw { name: "empty_name" };
+      }
+      const user = await User.findByPk(req.user.id, { attributes: ["username"] });
+      if (newName === user.username) {
+        throw { name: "same_name" };
+      }
+      await User.update({ username: newName }, { where: { id: req.user.id } });
+      res.json({ message: "Name successfully updated" });
+      await redis.del(`userProfile:${req.user.id}`);
+      await redis.del(`userDashboard`);
     } catch (error) {
       next(error);
     }

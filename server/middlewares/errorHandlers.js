@@ -29,6 +29,10 @@ function errorHandler(error, req, res, next) {
       status = 400;
       message = "Invalid password";
       break;
+    case "same_password":
+      status = 400;
+      message = "New password can't be the same as the old one";
+      break;
     case "Password doesn't match":
       status = 400;
       message = "Password doesn't match";
@@ -54,6 +58,14 @@ function errorHandler(error, req, res, next) {
     case "empty_input":
       status = 400;
       message = "Please fill all the fields";
+      break;
+    case "empty_name":
+      status = 400;
+      message = "New name must be filled";
+      break;
+    case "same_name":
+      status = 400;
+      message = "New name can't be the same as the current one";
       break;
   }
 
