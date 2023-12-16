@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     loader: () => {
       if(!localStorage.email){
         throw redirect('/login')
-      } else if(localStorage.access_token && localStorage.verified === "true"){
+      } else if(localStorage.access_token && localStorage.verified === true){
         throw redirect("/")
       }
       return null
