@@ -18,6 +18,7 @@ export const ResendVerificationPage = () => {
   };
   const changeAccount = async (event) => {
     event.preventDefault();
+    localStorage.clear()
         navigate("/login")
   }
   const email = localStorage.getItem('email')
