@@ -2,7 +2,7 @@
 import axios from "axios";
 import { fetchUserDashboard } from "./userActionCreators";
 const authAxios = axios.create({
-  baseURL: "https://incit-project.flixy.online/auth",
+  baseURL: "https://incit-exam.flixy.online/auth",
 });
 
 export const handleRegister = ({ username, email, password, password2 }) => {
@@ -35,8 +35,8 @@ export const handleLogin = ({ email, password }) => {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("verified", data.verified);
       localStorage.setItem("email", email);
-      dispatch(fetchUserDashboard());
-      dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -62,8 +62,8 @@ export const handleGoogleLogin = (response) => {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("email", data.email);
       localStorage.setItem("verified", data.verified);
-      dispatch(fetchUserDashboard());
-      dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -89,8 +89,8 @@ export const handleFacebookLogin = (response) => {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("email", data.email);
       localStorage.setItem("verified", data.verified);
-      dispatch(fetchUserDashboard());
-      dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
+      await dispatch(fetchUserDashboard());
       Swal.fire({
         position: "top-end",
         icon: "success",

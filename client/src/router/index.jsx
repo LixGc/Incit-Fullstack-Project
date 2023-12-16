@@ -1,72 +1,65 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
-import { RegisterPage } from "../views/RegisterPage";
-import { LoginPage } from "../views/LoginPage";
-import { ResendVerificationPage } from "../views/ResendVerificationPage";
-import { Layout } from "../components/Layout";
-import { Dashboard } from "../views/Dashboard";
-import { VerifyAccount } from "../views/VerifyAndRedirectPage";
+import { createBrowserRouter, redirect } from 'react-router-dom';
+import { RegisterPage } from '../views/RegisterPage';
+import { LoginPage } from '../views/LoginPage';
+import { ResendVerificationPage } from '../views/ResendVerificationPage';
+import { Layout } from '../components/Layout';
+import { Dashboard } from '../views/Dashboard';
+import { VerifyAccount } from '../views/VerifyAndRedirectPage';
 
 const router = createBrowserRouter([
-
   {
-    path:'/register',
-    element: <RegisterPage/>,
+    path: '/register',
+    element: <RegisterPage />,
     loader: () => {
-      if(localStorage.access_token && localStorage.verified === true){
-        throw redirect('/')
-      } else if(localStorage.access_token || localStorage.verified === false){
-        throw redirect('/resendVerification')
+      if (localStorage.access_token && localStorage.verified === "true") {
+        throw redirect('/');
+      } else if (localStorage.access_token || localStorage.verified === "false") {
+        throw redirect('/resendVerification');
       }
-      return null
-    }
+      return null;
+    },
   },
   {
-    path:'/login',
-    element: <LoginPage/>,
+    path: '/login',
+    element: <LoginPage />,
     loader: () => {
-      if(localStorage.access_token && localStorage.verified === true){
-        throw redirect('/')
-      } else if(localStorage.access_token && localStorage.verified === false){
-        throw redirect("/resendVerification")
-      }
-      return null
-    }
+     if (localStorage.access_token && localStorage.verified === "false") {
+        throw redirect('/resendVerification');
+      }  else if (localStorage.access_token && localStorage.verified === "true") {
+        throw redirect('/');
+      } 
+      return null;
+    },
   },
   {
-    path:'/resendVerification',
-    element: <ResendVerificationPage/>,
+    path: '/resendVerification',
+    element: <ResendVerificationPage />,
     loader: () => {
-      if(!localStorage.email){
-        throw redirect('/login')
-      } else if(localStorage.access_token && localStorage.verified === true){
-        throw redirect("/")
+      if (!localStorage.email) {
+        throw redirect('/login');
+      } else if (localStorage.access_token && localStorage.verified === "true") {
+        throw redirect('/');
       }
-      return null
-    }
+      return null;
+    },
   },
   {
-    path:'/verifyAccount',
-    element: <VerifyAccount/>,
+    path: '/verifyAccount',
+    element: <VerifyAccount />,
   },
   {
-    element: <Layout/>,
+    element: <Layout />,
     loader: () => {
-      if(!localStorage.access_token && localStorage.verified === false){
-        throw redirect('/login')
+      if (!localStorage.access_token || localStorage.verified !== "true") {
+        throw redirect('/login');
       }
-      return null
+      return null;
     },
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Dashboard />,
-        loader: () => {
-          if(!localStorage.access_token && localStorage.verified === false){
-            throw redirect('/login')
-          }
-          return null
-        },
-      }
+      },
     ],
   },
 ]);

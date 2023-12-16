@@ -20,7 +20,7 @@ export const LoginPage = () => {
   const submitLogin = async (event) => {
     event.preventDefault();
     dispatch(handleLogin({ email: input.email, password:input.password })).then(() => {
-      navigate("/verifyAccount");
+      navigate("/resendVerification");
     });
   };
   const responseGoogle = async (credentialResponse) => {
@@ -99,7 +99,7 @@ export const LoginPage = () => {
                   }}
                 />
               </div>
-              <FacebookLogin appId="331681419807077" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
+              <FacebookLogin appId="FACEBOOK_APP_ID" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
             </form>
           </div>
         </div>

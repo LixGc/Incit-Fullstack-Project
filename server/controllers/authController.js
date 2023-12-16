@@ -135,8 +135,10 @@ class AuthController {
       if (user.verificationLink !== uniqueString) {
         throw { name: "email_verification_not_valid" };
       }
+      let updatedUser = "";
       if (!user.verified) {
-        await User.update({ verified: true }, { where: { id } });
+        let [rowsUpdated, [newestUserData]] = await User.update({ verified: true }, { where: { id }, returning: true });
+        updatedUser = newestUserData;
       }
       const access_token = signToken({ id });
       let userTotalLogin = user.totalLogin;
@@ -144,7 +146,9 @@ class AuthController {
         userTotalLogin = 0;
       }
       await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
-      res.status(200).redirect(`http://incit-exam.web.app/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
+      res
+        .status(200)
+        .redirect(`http://incit-exam.web.app/verifyAccount?token=${access_token}&email=${updatedUser.email}&verified=${updatedUser.verified}`);
     } catch (error) {
       next(error);
     }

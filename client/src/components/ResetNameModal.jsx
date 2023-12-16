@@ -1,6 +1,6 @@
 import { useDispatch} from "react-redux";
 import { useState } from "react";
-import { resetName } from "../store/actions/userActionCreators";
+import { fetchUserDashboard, resetName } from "../store/actions/userActionCreators";
 
 export const ResetNameModal = ({ isVisible3, onClose3 }) => {
   const dispatch = useDispatch();
@@ -10,6 +10,7 @@ export const ResetNameModal = ({ isVisible3, onClose3 }) => {
     dispatch(resetName(username))
       .then(() => {
         onClose3();
+        dispatch(fetchUserDashboard())
       })
   };
   if (!isVisible3) return null;

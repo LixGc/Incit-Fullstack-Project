@@ -1,6 +1,6 @@
 import { useDispatch} from "react-redux";
 import { useState } from "react";
-import { resetPassword } from "../store/actions/userActionCreators";
+import { fetchUserDashboard, resetPassword } from "../store/actions/userActionCreators";
 
 export const ResetPasswordModal = ({ isVisible2, onClose2 }) => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ export const ResetPasswordModal = ({ isVisible2, onClose2 }) => {
     dispatch(resetPassword(input))
       .then(() => {
         onClose2();
+        dispatch(fetchUserDashboard())
       })
   };
   if (!isVisible2) return null;

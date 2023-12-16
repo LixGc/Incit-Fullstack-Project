@@ -8,7 +8,7 @@ export const userDashboardFetchSuccess = (payload) => {
   return { type: USER_DASHBOARD_FETCH_SUCCESS, payload };
 };
 
-const url = "https://incit-project.flixy.online";
+const url = "https://incit-exam.flixy.online";
 
 //Example using Fetch for APIs
 export const fetchUserProfile = () => {
@@ -79,7 +79,7 @@ export const resetPassword = (data) => {
         throw resData;
       }
       Swal.fire("Success!", "Password successfully resetted!", "success");
-      dispatch(fetchUserDashboard(resData));
+      await dispatch(fetchUserDashboard(resData));
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -103,9 +103,10 @@ export const resetName = (username) => {
       if (!response.ok) {
         throw resData;
       }
+      await dispatch(fetchUserDashboard(resData));
+      await dispatch(fetchUserProfile(resData));
+      console.log(dispatch(fetchUserDashboard(resData)));
       Swal.fire("Success!", "Name successfully resetted!", "success");
-      dispatch(fetchUserDashboard(resData));
-      dispatch(fetchUserProfile(resData));
     } catch (error) {
       console.log(error);
       Swal.fire({
