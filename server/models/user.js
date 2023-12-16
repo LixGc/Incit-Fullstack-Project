@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
-
+const { hashPassword } = require("../helpers/bcrypt");
+const sendEmail = require("../helpers/sendEmailVerification");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -77,6 +78,11 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
-
+  User.beforeCreate((el) => {
+    el.password = hashPassword(el.password);
+  });
+  User.afterCreate((user) => {
+    sendEmail(user);
+  });
   return User;
 };
