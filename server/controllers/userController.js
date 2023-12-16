@@ -1,7 +1,6 @@
 const { activeSessionChecker, countTodayActiveSessions, countAverageActiveSessionsLast7Days } = require("../helpers/activeSessionChecker");
 const { comparePassword, hashPassword } = require("../helpers/bcrypt");
 const { User, UserHistory } = require("../models");
-const redis = require("../helpers/redis");
 const { Op } = require("sequelize");
 class UserController {
   static async profile(req, res, next) {
@@ -94,7 +93,6 @@ class UserController {
       const hashedPassword = hashPassword(newPassword);
 
       await User.update({ password: hashedPassword }, { where: { id: req.user.id } });
-      await redis.del(`userDashboard`);
       res.json({ message: "Password successfully updated!" });
     } catch (error) {
       console.error(error);
@@ -113,7 +111,6 @@ class UserController {
       }
       await User.update({ username: newName }, { where: { id: req.user.id } });
       res.json({ message: "Name successfully updated" });
-      await redis.del(`userDashboard`);
     } catch (error) {
       next(error);
     }
