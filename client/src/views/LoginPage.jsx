@@ -99,7 +99,7 @@ export const LoginPage = () => {
                   }}
                 />
               </div>
-              <FacebookLogin appId="331681419807077" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
+              <FacebookLogin appId="YOUR-FACEBOOK-APP-ID" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
             </form>
           </div>
         </div>
