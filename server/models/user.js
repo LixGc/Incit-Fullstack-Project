@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
           },
           isStrongPassword(value) {
             if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])/.test(value)) {
-              throw new Error("notStrongPassword");
+              throw "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
             }
           },
         },

@@ -2,6 +2,7 @@ const { activeSessionChecker, countTodayActiveSessions, countAverageActiveSessio
 const { comparePassword, hashPassword } = require("../helpers/bcrypt");
 const { User, UserHistory } = require("../models");
 const redis = require("../helpers/redis");
+const { Op } = require("sequelize");
 class UserController {
   static async profile(req, res, next) {
     try {
@@ -14,8 +15,23 @@ class UserController {
   static async dashboard(req, res, next) {
     try {
       let userDashboard = await redis.get(`userDashboard`);
+      if (req.query) {
+        await redis.del(`userDashboard`);
+      }
       if (!userDashboard) {
-        const user = await User.findAll({ include: [UserHistory], attributes: { exclude: ["password", "verified", "verificationLink"] } });
+        const option = {
+          include: [UserHistory],
+          attributes: { exclude: ["password", "verified", "verificationLink"] },
+        };
+
+        if (req.query.name) {
+          option.where = {
+            username: {
+              [Op.iLike]: `%${req.query.name}%`,
+            },
+          };
+        }
+        const user = await User.findAll(option);
         const userLogoutData = user.reduce((acc, currentUser) => {
           const logoutHistories = currentUser.UserHistories.filter((history) => {
             return history.name === "logout" && history.UserId === req.user.id;
@@ -88,6 +104,7 @@ class UserController {
       const hashedPassword = hashPassword(newPassword);
 
       await User.update({ password: hashedPassword }, { where: { id: req.user.id } });
+      await redis.del(`userProfile:${req.user.id}`);
       await redis.del(`userDashboard`);
       res.json({ message: "Password successfully updated!" });
     } catch (error) {

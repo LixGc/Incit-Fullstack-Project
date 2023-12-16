@@ -2,11 +2,11 @@ const isToday = (date) => {
   const currentDate = new Date();
   return date.getDate() === currentDate.getDate() && date.getMonth() === currentDate.getMonth() && date.getFullYear() === currentDate.getFullYear();
 };
-//helper function to check if a date is within the last 7 days
+// Helper function to check if a date is within the last 7 days
 function isWithinLast7Days() {
   var currentDate = new Date();
 
-  //subtract 7 days to get the last 7 days
+  // Subtract 7 days to get the last 7 days
   var sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
 
@@ -19,7 +19,7 @@ const activeSessionChecker = (userActiveSession) => {
     user.UserHistories.forEach((report) => {
       let allLoginDate = new Date(report.createdAt);
 
-      //check if the login date is today
+      // Check if the login date is today
       if (allLoginDate.toDateString() === new Date().toDateString()) {
         haveLogin = true;
       }
@@ -27,7 +27,7 @@ const activeSessionChecker = (userActiveSession) => {
   });
   return haveLogin;
 };
-//helper function to count today's active sessions for a user
+// Helper function to count today's active sessions for a user
 const countTodayActiveSessions = (user) => {
   let todayActiveSession = 0;
 

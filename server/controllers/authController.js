@@ -128,8 +128,8 @@ class AuthController {
   static async createLogoutHistory(req, res, next) {
     try {
       await UserHistory.create({ name: "logout", UserId: req.user.id });
-      await redis.del(`userDashboard`);
       res.status(201).json({ message: "Success" });
+      await redis.del(`userDashboard`);
     } catch (error) {
       next(error);
     }
@@ -151,7 +151,7 @@ class AuthController {
       }
       await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
       await redis.del(`userDashboard`);
-      res.status(200).redirect(`https://incit-exam.web.app/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
+      res.status(200).redirect(`http://localhost:3001/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
     } catch (error) {
       next(error);
     }
@@ -167,7 +167,6 @@ class AuthController {
         throw { name: "Email already verified" };
       }
       sendEmail(user);
-      await redis.del(`userDashboard`);
       res.status(201).json({ message: "Email verification successfully sent!" });
     } catch (error) {
       next(error);
