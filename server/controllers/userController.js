@@ -5,15 +5,8 @@ const redis = require("../helpers/redis");
 class UserController {
   static async profile(req, res, next) {
     try {
-      let userProfile = await redis.get(`userProfile:${req.user.id}`);
-      if (!userProfile) {
-        const user = await User.findByPk(req.user.id, { attributes: ["username", "email", "verified"], exclude: ["password", "verificationLink"] });
-        userProfile = user;
-        await redis.set(`userProfile:${req.user.id}`, JSON.stringify(user));
-      } else {
-        userProfile = JSON.parse(userProfile);
-      }
-      res.json(userProfile);
+      const user = await User.findByPk(req.user.id, { attributes: ["username", "email", "verified"], exclude: ["password", "verificationLink"] });
+      res.json(user);
     } catch (error) {
       next(error);
     }
@@ -95,7 +88,6 @@ class UserController {
       const hashedPassword = hashPassword(newPassword);
 
       await User.update({ password: hashedPassword }, { where: { id: req.user.id } });
-      await redis.del(`userProfile:${req.user.id}`);
       await redis.del(`userDashboard`);
       res.json({ message: "Password successfully updated!" });
     } catch (error) {
@@ -115,7 +107,6 @@ class UserController {
       }
       await User.update({ username: newName }, { where: { id: req.user.id } });
       res.json({ message: "Name successfully updated" });
-      await redis.del(`userProfile:${req.user.id}`);
       await redis.del(`userDashboard`);
     } catch (error) {
       next(error);

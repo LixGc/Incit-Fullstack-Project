@@ -54,6 +54,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard />,
+        loader: () => {
+          if(!localStorage.access_token && !localStorage.verified){
+            throw redirect('/login')
+          }
+          return null
+        },
       }
     ],
   },
