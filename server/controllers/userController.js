@@ -14,6 +14,7 @@ class UserController {
   static async resetPassword(req, res, next) {
     try {
     } catch (error) {
+      console.error(error);
       next(error);
     }
   }
