@@ -3,7 +3,6 @@ const sendEmail = require("../helpers/sendEmailVerification");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const { User, UserHistory } = require("../models");
-const redis = require("../helpers/redis");
 class AuthController {
   static async register(req, res, next) {
     try {
@@ -15,7 +14,6 @@ class AuthController {
         throw { name: "Password doesn't match" };
       }
       await User.create({ username, email, password });
-      await redis.del(`userDashboard`);
       res.status(201).json({ message: `Account succesfully created!` });
     } catch (error) {
       console.log(error);
@@ -44,7 +42,6 @@ class AuthController {
         await User.update({ totalLogin: user.totalLogin + 1 }, { where: { id: user.id } });
       }
       let verified = user.verified;
-      await redis.del(`userDashboard`);
       res.status(200).json({ access_token, verified, email });
     } catch (error) {
       next(error);
@@ -84,7 +81,6 @@ class AuthController {
       }
       let verified = user.verified;
       let email = user.email;
-      await redis.del(`userDashboard`);
       res.status(status).json({ access_token, verified, email });
     } catch (error) {
       next(error);
@@ -119,7 +115,6 @@ class AuthController {
         await User.update({ totalLogin: user.totalLogin + 1 }, { where: { id: user.id } });
       }
       let verified = user.verified;
-      await redis.del(`userDashboard`);
       res.status(status).json({ access_token, verified, email });
     } catch (error) {
       next(error);
@@ -129,7 +124,6 @@ class AuthController {
     try {
       await UserHistory.create({ name: "logout", UserId: req.user.id });
       res.status(201).json({ message: "Success" });
-      await redis.del(`userDashboard`);
     } catch (error) {
       next(error);
     }
@@ -137,9 +131,7 @@ class AuthController {
   static async verify(req, res, next) {
     try {
       let { id, uniqueString } = req.params;
-      console.log(id);
       const user = await User.findByPk(id, { attributes: ["verificationLink", "verified", "email"] });
-      console.log(user);
       if (user.verificationLink !== uniqueString) {
         throw { name: "email_verification_not_valid" };
       }
@@ -152,7 +144,6 @@ class AuthController {
         userTotalLogin = 0;
       }
       await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
-      await redis.del(`userDashboard`);
       res.status(200).redirect(`http://incit-exam.web.app/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
     } catch (error) {
       next(error);

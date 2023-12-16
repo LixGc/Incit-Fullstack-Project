@@ -12,8 +12,10 @@ const router = createBrowserRouter([
     path:'/register',
     element: <RegisterPage/>,
     loader: () => {
-      if(localStorage.access_token){
+      if(localStorage.access_token && localStorage.verified === true){
         throw redirect('/')
+      } else if(localStorage.access_token || localStorage.verified === false){
+        throw redirect('/resendVerification')
       }
       return null
     }
@@ -22,8 +24,10 @@ const router = createBrowserRouter([
     path:'/login',
     element: <LoginPage/>,
     loader: () => {
-      if(localStorage.access_token){
+      if(localStorage.access_token && localStorage.verified === true){
         throw redirect('/')
+      } else if(localStorage.access_token && localStorage.verified === false){
+        throw redirect("/resendVerification")
       }
       return null
     }
@@ -34,6 +38,8 @@ const router = createBrowserRouter([
     loader: () => {
       if(!localStorage.email){
         throw redirect('/login')
+      } else if(localStorage.access_token && localStorage.verified === "true"){
+        throw redirect("/")
       }
       return null
     }
@@ -45,7 +51,7 @@ const router = createBrowserRouter([
   {
     element: <Layout/>,
     loader: () => {
-      if(!localStorage.access_token && !localStorage.verified){
+      if(!localStorage.access_token && localStorage.verified === false){
         throw redirect('/login')
       }
       return null
@@ -55,7 +61,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Dashboard />,
         loader: () => {
-          if(!localStorage.access_token && !localStorage.verified){
+          if(!localStorage.access_token && localStorage.verified === false){
             throw redirect('/login')
           }
           return null
