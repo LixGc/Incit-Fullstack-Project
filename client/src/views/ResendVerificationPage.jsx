@@ -51,7 +51,7 @@ export const ResendVerificationPage = () => {
                  onClick={submitVerification}
                    type="submit"
                    className="border-2 border-gray-500 bg-gray-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-500 font-semibold">
-                   Resend verification email
+                   Resend Email Verification
                  </button>
                </div>
            </div>
