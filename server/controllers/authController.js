@@ -132,6 +132,9 @@ class AuthController {
     try {
       let { id, uniqueString } = req.params;
       const user = await User.findByPk(id, { attributes: ["verificationLink", "verified", "email"] });
+      if (!user) {
+        throw { name: "Data is not found!" };
+      }
       if (user.verificationLink !== uniqueString) {
         throw { name: "email_verification_not_valid" };
       }
@@ -160,6 +163,9 @@ class AuthController {
         throw { name: "invalid_data" };
       }
       const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw { name: "Data is not found!" };
+      }
       if (user.verified) {
         throw { name: "Email already verified" };
       }

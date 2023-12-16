@@ -13,6 +13,10 @@ function errorHandler(error, req, res, next) {
       status = 401;
       message = "Email isn't verified, please check your email message for the verification link";
       break;
+    case "forbidden":
+      status = 403;
+      message = "No access";
+      break;
     case "not_valid":
       status = 401;
       message = "Invalid email or password";
@@ -21,6 +25,9 @@ function errorHandler(error, req, res, next) {
       status = 400;
       message = "Email Verification Link is not valid";
       break;
+    case "Email already verified":
+      status = 400;
+      message = "Email already verified";
     case "invalid_email_or_password":
       status = 400;
       message = "Email or Password is required";
@@ -48,6 +55,10 @@ function errorHandler(error, req, res, next) {
     case "invalid_data":
       status = 400;
       message = "Invalid data";
+      break;
+    case "Data is not found!":
+      status = 404;
+      message = "Data is not found!";
       break;
     case "SequelizeUniqueConstraintError":
     case "SequelizeValidationError":
