@@ -104,7 +104,6 @@ class UserController {
       const hashedPassword = hashPassword(newPassword);
 
       await User.update({ password: hashedPassword }, { where: { id: req.user.id } });
-      await redis.del(`userProfile:${req.user.id}`);
       await redis.del(`userDashboard`);
       res.json({ message: "Password successfully updated!" });
     } catch (error) {

@@ -137,7 +137,9 @@ class AuthController {
   static async verify(req, res, next) {
     try {
       let { id, uniqueString } = req.params;
+      console.log(id);
       const user = await User.findByPk(id, { attributes: ["verificationLink", "verified", "email"] });
+      console.log(user);
       if (user.verificationLink !== uniqueString) {
         throw { name: "email_verification_not_valid" };
       }
@@ -151,7 +153,7 @@ class AuthController {
       }
       await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
       await redis.del(`userDashboard`);
-      res.status(200).redirect(`http://localhost:3001/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
+      res.status(200).redirect(`http://incit-exam.web.app/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
     } catch (error) {
       next(error);
     }
