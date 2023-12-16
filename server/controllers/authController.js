@@ -144,7 +144,7 @@ class AuthController {
         userTotalLogin = 0;
       }
       await User.update({ totalLogin: userTotalLogin + 1 }, { where: { id } });
-      res.status(200).redirect(`http://localhost:3001/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
+      res.status(200).redirect(`https://incit-exam.web.app/verifyAccount?token=${access_token}&email=${user.email}&verified=${user.verified}`);
     } catch (error) {
       next(error);
     }

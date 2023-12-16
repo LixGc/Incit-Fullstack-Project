@@ -2,7 +2,7 @@
 import axios from "axios";
 import { fetchUserDashboard } from "./userActionCreators";
 const authAxios = axios.create({
-  baseURL: "http://localhost:3000/auth",
+  baseURL: "https://incit-project.flixy.online/auth",
 });
 
 export const handleRegister = ({ username, email, password, password2 }) => {

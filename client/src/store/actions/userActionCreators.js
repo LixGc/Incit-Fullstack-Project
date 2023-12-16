@@ -8,8 +8,7 @@ export const userDashboardFetchSuccess = (payload) => {
   return { type: USER_DASHBOARD_FETCH_SUCCESS, payload };
 };
 
-const url = "http://localhost:3000";
-// const url = "https://olive-garden.flixy.online";
+const url = "https://incit-project.flixy.online";
 
 //Example using Fetch for APIs
 export const fetchUserProfile = () => {

@@ -12,7 +12,7 @@ async function sendEmail(user) {
       },
     });
 
-    const currentUrl = "http://localhost:3000";
+    const currentUrl = "https://incit-project.flixy.online";
     let uniqueString = uuidv4() + user.username;
     let verificationLink = currentUrl + "/auth/verify/" + user.id + "/" + uniqueString;
     const sendMail = await transporter.sendMail({
