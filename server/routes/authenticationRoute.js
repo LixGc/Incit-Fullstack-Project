@@ -7,7 +7,7 @@ router.post("/login", AuthController.login);
 router.post("/logout", loginAuthentication, AuthController.createLogoutHistory);
 router.post("/google-login", AuthController.googleLogin);
 router.post("/facebook-login", AuthController.facebookLogin);
-router.patch("/resendVerification", loginAuthentication, AuthController.resendVerification);
+router.patch("/resendVerification", AuthController.resendVerification);
 router.get("/verify/:id/:uniqueString", AuthController.verify);
 
 module.exports = router;
