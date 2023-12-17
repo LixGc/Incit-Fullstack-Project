@@ -5,6 +5,7 @@ import { fetchUserDashboard, resetName } from "../store/actions/userActionCreato
 export const ResetNameModal = ({ isVisible3, onClose3 }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(resetName(username))

@@ -10,24 +10,27 @@ export const LoginPage = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleChange = (event) => {
     const { value, name } = event.target;
     setInput({ ...input, [name]: value });
   };
-  useEffect(() => {}, []);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const submitLogin = async (event) => {
     event.preventDefault();
-    dispatch(handleLogin({ email: input.email, password:input.password })).then(() => {
+    dispatch(handleLogin({ email: input.email, password: input.password })).then(() => {
       navigate("/resendVerification");
     });
   };
+
   const responseGoogle = async (credentialResponse) => {
     dispatch(handleGoogleLogin(credentialResponse)).then(() => {
       navigate("/");
-    })
+    });
   };
+
   const responseFacebook = async (response) => {
     dispatch(handleFacebookLogin(response)).then(() => {
       navigate("/");
@@ -41,14 +44,15 @@ export const LoginPage = () => {
           <div className="w-96 p-6 shadow-lg bg-white rounded-md">
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
 
-            <form onSubmit={submitLogin} id="signup-form" className="mb-0 space-y-6 mt-6" >
+            <form onSubmit={submitLogin} id="signup-form" className="mb-0 space-y-6 mt-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email
                 </label>
                 <div className="mt-1">
                   <input
-                    onChange={handleChange} value={input.email}
+                    onChange={handleChange}
+                    value={input.email}
                     id="email-signup"
                     name="email"
                     type="text"
@@ -65,7 +69,8 @@ export const LoginPage = () => {
                 </label>
                 <div className="mt-1">
                   <input
-                  onChange={handleChange} value={input.password}
+                    onChange={handleChange}
+                    value={input.password}
                     id="password-signup"
                     name="password"
                     type="password"
@@ -99,7 +104,7 @@ export const LoginPage = () => {
                   }}
                 />
               </div>
-              <FacebookLogin appId="FACEBOOK_APP_ID" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
+              <FacebookLogin appId="YOUR_FACEBOOK_APP_ID" autoLoad={false} fields="name,email,picture" callback={responseFacebook} />
             </form>
           </div>
         </div>

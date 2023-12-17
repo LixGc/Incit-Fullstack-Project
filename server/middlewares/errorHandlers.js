@@ -1,3 +1,4 @@
+//All error from server goes here
 function errorHandler(error, req, res, next) {
   let status = 500;
   let message = "Internal Server Error";

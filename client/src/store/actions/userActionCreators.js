@@ -36,6 +36,7 @@ export const fetchUserProfile = () => {
     }
   };
 };
+
 export const fetchUserDashboard = (username) => {
   return async (dispatch) => {
     try {
@@ -66,6 +67,7 @@ export const fetchUserDashboard = (username) => {
     }
   };
 };
+
 export const resetPassword = (data) => {
   return async (dispatch) => {
     try {
@@ -91,6 +93,7 @@ export const resetPassword = (data) => {
     }
   };
 };
+
 export const resetName = (username) => {
   return async (dispatch) => {
     try {

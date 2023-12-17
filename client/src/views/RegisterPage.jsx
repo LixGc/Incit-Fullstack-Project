@@ -8,21 +8,23 @@ export const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    password2: ""
+    password2: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleChange = (event) => {
     const { value, name } = event.target;
     setInput({ ...input, [name]: value });
   };
-  useEffect(() => {}, []);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const submitRegister = async (event) => {
     event.preventDefault();
-    dispatch(handleRegister({ username: input.username, email:input.email, password:input.password, password2:input.password2 })).then(() => {
+    dispatch(handleRegister({ username: input.username, email: input.email, password: input.password, password2: input.password2 })).then(() => {
       navigate("/resendVerification");
-    })
+    });
   };
+
   return (
     <section id="signup-section" className="flex justify-center items-center h-screen bg-white">
       <div className="min-h-screen bg-white-50 flex flex-col justify-center py-12 px-6 lg:px-8">
@@ -37,7 +39,8 @@ export const RegisterPage = () => {
                 </label>
                 <div className="mt-1">
                   <input
-                    onChange={handleChange} value={input.username}
+                    onChange={handleChange}
+                    value={input.username}
                     id="name-signup"
                     name="username"
                     type="text"
@@ -53,7 +56,8 @@ export const RegisterPage = () => {
                 </label>
                 <div className="mt-1">
                   <input
-                          onChange={handleChange} value={input.email}
+                    onChange={handleChange}
+                    value={input.email}
                     id="email-signup"
                     name="email"
                     type="email"
@@ -70,7 +74,8 @@ export const RegisterPage = () => {
                 </label>
                 <div className="mt-1">
                   <input
-                       onChange={handleChange} value={input.password}
+                    onChange={handleChange}
+                    value={input.password}
                     id="password-signup"
                     name="password"
                     type="password"
@@ -87,7 +92,8 @@ export const RegisterPage = () => {
                 </label>
                 <div className="mt-1">
                   <input
-                         onChange={handleChange} value={input.password2}
+                    onChange={handleChange}
+                    value={input.password2}
                     id="password-signup"
                     name="password2"
                     type="password"

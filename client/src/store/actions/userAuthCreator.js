@@ -28,6 +28,7 @@ export const handleRegister = ({ username, email, password, password2 }) => {
     }
   };
 };
+
 export const handleLogin = ({ email, password }) => {
   return async (dispatch) => {
     try {
@@ -55,6 +56,7 @@ export const handleLogin = ({ email, password }) => {
     }
   };
 };
+
 export const handleGoogleLogin = (response) => {
   return async (dispatch) => {
     try {
@@ -82,6 +84,7 @@ export const handleGoogleLogin = (response) => {
     }
   };
 };
+
 export const handleFacebookLogin = (response) => {
   return async (dispatch) => {
     try {
@@ -109,6 +112,7 @@ export const handleFacebookLogin = (response) => {
     }
   };
 };
+
 export const submitLogout = () => {
   return async () => {
     try {
@@ -130,6 +134,7 @@ export const submitLogout = () => {
     }
   };
 };
+
 export const resendVerification = () => {
   return async () => {
     try {
