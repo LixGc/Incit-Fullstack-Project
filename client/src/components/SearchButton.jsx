@@ -11,12 +11,12 @@ export const SearchButton = () => {
     e.preventDefault();
     setLoading(true);
     dispatch(fetchUserDashboard(username)).then(() => {
+      setUsername("")
       setTimeout(() => {
         setLoading(false);
       }, 1500);
     });
   };
-
   return (
     <>
       {!loading ? (
@@ -27,6 +27,7 @@ export const SearchButton = () => {
                 <input
                   onChange={(el) => setUsername(el.target.value)}
                   type="search"
+                  autoComplete="off"
                   className="form-control flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   placeholder="Search name..."
                   aria-label="Search"

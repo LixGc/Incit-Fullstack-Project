@@ -12,7 +12,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(fetchUserDashboard())
+      dispatch(fetchUserDashboard());
       setLoading(false);
     }, 1500);
   }, []);
@@ -49,7 +49,7 @@ export const Dashboard = () => {
                 </div>
               </div>
               <div className="w-full md:w-1/3">
-                <SearchButton/>
+                <SearchButton />
               </div>
             </div>
             <div className="flex flex-col overflow-x-auto text-xs">
@@ -65,9 +65,17 @@ export const Dashboard = () => {
                 </thead>
                 {users.user ? (
                   <tbody>
-                    {users.user.map((userData, idx) => (
-                      <UserTableRow key={idx} userData={userData} idx={idx + 1} />
-                    ))}
+                    {users.user.length > 0 ? (
+                      users.user.map((userData, idx) => (
+                        <UserTableRow key={idx} userData={userData} idx={idx + 1} />
+                      ))
+                    ) : (
+                      <tr>
+                      <td colSpan="5" className="text-gray-500 text-xl">
+                        No data found
+                      </td>
+                    </tr>
+                    )}
                   </tbody>
                 ) : (
                   <tbody>

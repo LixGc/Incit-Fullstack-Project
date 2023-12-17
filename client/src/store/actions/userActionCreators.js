@@ -40,29 +40,34 @@ export const fetchUserProfile = () => {
 export const fetchUserDashboard = (username) => {
   return async (dispatch) => {
     try {
-      let query = "";
-      if (username) {
-        query = username;
-      }
-      const response = await fetch(url + `/user/dashboard?name=${query}`, {
+      console.log(username);
+      let query = username ? `?name=${username}` : "";
+
+      const response = await fetch(url + `/user/dashboard${query}`, {
         headers: { access_token: localStorage.access_token },
       });
+
       const resData = await response.json();
+
       if (!response.ok) {
         throw resData;
       }
+
       dispatch(userDashboardFetchSuccess(resData));
     } catch (error) {
       console.log(error);
+
       if (error.message === "Invalid Token") {
         localStorage.clear();
         redirect("/login");
       }
+
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: error.message + "!",
       });
+
       throw error;
     }
   };
