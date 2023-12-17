@@ -1,35 +1,53 @@
-# About
+# Incit Fullstack-Exam
+## Overview
 
-A mobile website application made with React.js and javascript showing simple user dashboard
+A desktop website application built with React.js and JavaScript, featuring a simple user dashboard.
 
-For the deployed website you can see here: https://incit-exam.web.app
+For the deployed website, visit [Incit Exam](https://incit-exam.web.app).
 
-Tech stack used:
+## Tech Stack
 
-- Backend: Google-OAuth, PostgreSQL, Express, Sequelize, Nodemailer, Bcryptjs, Json Web Token
+### Backend
 
-- Frontend: React.js, React Google-OAuth, React Facebook-OAuth, Axios, Redux, Lottie-React
+- Google OAuth
+- PostgreSQL
+- Express
+- Sequelize
+- Nodemailer
+- Bcryptjs
+- Json Web Token
 
-## List of available pages
+### Frontend
 
-Login and register page
+- React.js
+- React Google OAuth
+- React Facebook OAuth
+- Axios
+- Redux
+- Lottie-React
 
-> Page where user can register an account and login into the application
+## List of Available Pages
 
-Resend verification page
+### Login and Register Page
 
-> Page where user can request to resend email verification
+Page where users can register an account and log in to the application.
 
-Dashboard
+### Resend Verification Page
 
-> Page where with a list of all users that have signed up to the app which contain the following information:
+Page where users can request to resend email verification.
+
+### Dashboard
+
+Page with a list of all users who have signed up for the app. It includes the following information:
 
 - User profile
-- Timestamp of the user sign up
-- Number of times of the user logged in
+- Timestamp of user sign-up
+- Number of times the user logged in
 - Timestamp of the user logged out
 - Total number of users who have signed up
 - Total number of users with active sessions today
 - Average number of active session users in the last 7 days rolling
 
-API documentation can be found in APIdocs.md
+## API Documentation
+
+Detailed API documentation can be found in [APIdocs.md](APIdocs.md).
