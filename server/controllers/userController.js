@@ -18,14 +18,16 @@ class UserController {
         attributes: { exclude: ["password", "verified", "verificationLink"] },
       };
 
-      if (req.query.name) {
+      if (req.query.name && req.query.name.trim() !== "") {
         option.where = {
           username: {
             [Op.iLike]: `%${req.query.name}%`,
           },
         };
       }
+
       const user = await User.findAll(option);
+
       const userLogoutData = user.reduce((acc, currentUser) => {
         const logoutHistories = currentUser.UserHistories.filter((history) => {
           return history.name === "logout" && history.UserId === req.user.id;
@@ -33,6 +35,7 @@ class UserController {
 
         return acc.concat(logoutHistories);
       }, []);
+
       let userActiveSession = await User.findAll(
         {
           include: [
@@ -44,13 +47,16 @@ class UserController {
         },
         { exclude: ["password", "verified", "verificationLink"] }
       );
+
       const activeToday = activeSessionChecker(userActiveSession);
       if (!activeToday) {
         await UserHistory.create({ name: "activeSession", UserId: req.user.id });
       }
+
       let todayActiveSession = countTodayActiveSessions(user);
       let averageActiveSessionsLast7Days = countAverageActiveSessionsLast7Days(user);
       averageActiveSessionsLast7Days = averageActiveSessionsLast7Days.toFixed(2);
+
       let result = {
         user,
         totalUser: user.length,
@@ -58,6 +64,7 @@ class UserController {
         averageActiveSessionsLast7Days,
         userLogoutData,
       };
+
       res.json(result);
     } catch (error) {
       next(error);
