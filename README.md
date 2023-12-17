@@ -2,6 +2,8 @@
 
 A mobile website application made with React.js and javascript showing simple user dashboard
 
+For the deployed website you can see here: https://incit-exam.web.app
+
 Tech stack used:
 
 - Backend: Google-OAuth, PostgreSQL, Express, Sequelize, Nodemailer, Bcryptjs, Json Web Token
